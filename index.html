@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Game - Honkai Star Rail</title>
+    <link rel="icon" href="./img/icon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background">
+        <img src="./img/bg.jpg" alt="Honkai Star Rail Background">
+    </div>
+    <div class="logo" id="logo">
+        <a href="https://hsr.hoyoverse.com/en-us/home" target="_blank">
+            <img src="./img/logo.png" alt="Honkai Star Rail Logo">
+        </a>
+    </div>
+    <nav>
+        <div class="button">
+            <div class="start" id="startbutton">
+                <a href="#">Start</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container" id="container">
+        <div id="gameboard">
+            <div class="card" id="blade">
+                <img src="./img/Blade.png" alt="Blade Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="blade2">
+                <img src="./img/Blade.png" alt="Blade Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="kafka">
+                <img src="./img/kafka.png" alt="Kafka Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="kafka2">
+                <img src="./img/kafka.png" alt="Kafka Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="moze">
+                <img src="./img/Moze.png" alt="Moze Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="moze2">
+                <img src="./img/Moze.png" alt="Moze Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="firefly">
+                <img src="./img/Firefly.png" alt="Firefly Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="firefly2">
+                <img src="./img/Firefly.png" alt="Firefly Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="trailblazer">
+                <img src="./img/Trailblazer_female.png" alt="Trailblazer Female Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="trailblazer2">
+                <img src="./img/Trailblazer_female.png" alt="Trailblazer Female Card" class="front">
+                <img src="./img/cardbg.png" alt="Back Card" class="back">
+            </div>
+            <div class="card" id="welt">
+                <img src="./img/Welt.png" alt="Welt Card" class="front">
+                <img src="./img/cardbg.png" alt="Welt Card" class="back">
+            </div>
+            <div class="card" id="welt2">
+                <img src="./img/Welt.png" alt="Welt Card" class="front">
+                <img src="./img/cardbg.png" alt="Welt Card" class="back">
+            </div>
+            <div class="button2">
+                <button id="resetbutton">Reset</button>
+                <button id="homebutton">Home</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Disclaimer: This website is a fan project and is not affiliated with or endorsed by Honkai: Star Rail or its creator. All characters and trademarks are the property of their respective owners.</p>
+    </footer>
+    <script>
+        'use strict';
+
+        /*document.addEventListener('DOMContentLoaded', function() {
+            const blade = document.getElementById('blade');
+            const blade2 = document.getElementById('blade2');
+
+            blade.addEventListener('click', function(){
+                this.classList.toggle('flipped');
+            })
+            
+            blade2.addEventListener('click', function(){
+                this.classList.toggle('flipped');
+            })
+        })*/
+
+        document.addEventListener('DOMContentLoaded', function(){
+            const startbutton = document.getElementById('startbutton');
+            const logo = document.getElementById('logo');
+            const container = document.getElementById('container');
+            const gamecard = Array.from(document.querySelectorAll('.card'));
+            const homebutton = document.getElementById('homebutton');
+            const resetbutton = document.getElementById('resetbutton');
+            let flippedcards = [];
+
+            startbutton.addEventListener('click', () => {
+                startbutton.style.display = 'none';
+                logo.style.display = 'none';
+                container.style.display = 'block';
+                shufflecards();
+            });
+
+            homebutton.addEventListener('click', () => {
+                container.style.display = 'none';
+                logo.style.display = 'block';
+                startbutton.style.display = 'block';
+                resetcards();
+            })
+
+            function shufflecards() {
+                gamecard.forEach(card => {
+                    const randomcardorder = Math.floor(Math.random() * gamecard.length);
+                    card.style.order = randomcardorder;
+                })
+            }
+
+            function resetcards() {
+                gamecard.forEach(card => {
+                    card.classList.remove('flipped', 'transparent');
+                });
+            }
+
+            function matchcheck() {
+                if (flippedcards.length === 2) {
+                    const firstcard = flippedcards[0];
+                    const secondcard = flippedcards[1];
+
+                    if (firstcard.querySelector('.front').src === secondcard.querySelector('.front').src) {
+                        setTimeout(() =>{
+                            firstcard.classList.add('transparent');
+                            secondcard.classList.add('transparent');
+                        }, 1000);
+
+                        setTimeout(() => {
+                            gamecompletecheck();
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            firstcard.classList.remove('flipped');
+                            secondcard.classList.remove('flipped');
+                        }, 1000)
+                    }
+
+                    flippedcards = [];
+                }
+            }
+
+            function gamecompletecheck() {
+                const matchedcards = document.querySelectorAll('.card.transparent');
+
+                if (matchedcards.length === gamecard.length) {
+                    alert("Congratulations! ✧*｡٩(ˊᗜˋ*)و✧*｡ Please press reset if you want to play again or you can just close the browser. Thank you for playing! ٩(｡・ω・｡)و")
+                }
+            }
+
+            gamecard.forEach(card => {
+                card.addEventListener('click', function() {
+                    //this.classList.toggle('flipped');
+                    if(!this.classList.contains('flipped') && flippedcards.length < 2) {
+                        this.classList.add('flipped');
+                        flippedcards.push(this);
+
+                        if (flippedcards.length === 2) {
+                            matchcheck();
+                        }
+
+                    }
+                });
+            });
+
+
+            resetbutton.addEventListener('click', function(){
+                shufflecards();
+                resetcards();
+            })
+
+            shufflecards();
+        })
+
+    </script>
+</body>
+</html>
